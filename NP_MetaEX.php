@@ -160,8 +160,8 @@ class NP_MetaEX extends NucleusPlugin
 		$p = func_get_args();
 		$param = $p[1];
 		
-		$keywords = "";
-		$description = "";
+		$keywords = '';
+		$description = '';
 		$itemid = intval($itemid);
 		switch ($skinType)
 		{
