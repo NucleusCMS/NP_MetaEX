@@ -153,9 +153,12 @@ class NP_MetaEX extends NucleusPlugin
 		}
 	}
 	
-	function doSkinVar($skinType,$param)
+	function doSkinVar($skinType)
 	{
 		global $CONF, $manager, $blog, $itemid;
+		
+		$p = func_get_args();
+		$param = $p[1];
 		
 		$keywords = "";
 		$description = "";
