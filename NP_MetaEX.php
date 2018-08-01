@@ -216,41 +216,6 @@ class NP_MetaEX extends NucleusPlugin
 			}
 		}
 		echo $str;
-/*
-		if($manager->pluginInstalled('NP_SearchedPhrase'))
-		{
-			global $catid;
-			$cat =intval($catid);
-			$rows = 10;
-			$disp_length = 20;
-			if ($itemid)
-			{
-				$result = mysql_query('SELECT query_phrase, query_count FROM ' . sql_table('plugin_searched_phrase_count') . " WHERE item_id=$itemid AND cat_id=0 ORDER BY query_count DESC LIMIT 0, 10");
-			}
-			else
-			{ // We're in an index page
-				if (is_numeric($cat) && $cat)
-				{ // in a category index. displays queries in the category
-					$result = mysql_query('SELECT query_phrase, query_count FROM ' . sql_table('plugin_searched_phrase_count') . " WHERE item_id=0 AND cat_id=$cat ORDER BY query_count DESC LIMIT 0, $rows");
-				}
-				else
-				{ // in the main index. displays all queries
-					$result = mysql_query('SELECT query_phrase, query_count FROM ' . sql_table('plugin_searched_phrase_total') . " ORDER BY query_count DESC LIMIT 0, $rows");
-				}
-			}
-			if(mysql_num_rows($result))
-			{
-			$keyarr=array();
-				while($row = mysql_fetch_array($result, MYSQL_ASSOC))
-				{
-					$query = $disp_length?shorten($row["query_phrase"], $disp_length, "..."):$row["query_phrase"];
-					$keyarr[] = htmlspecialchars($query);
-				}
-			}
-			if(!empty($keyarr)) {$keywords = join(',', $keyarr);}
-			echo $keywords;
-		}
-*/
 	}
 	function my_str_replace($search, $replace, $target, $encoding = _CHARSET)
 	{
@@ -292,4 +257,3 @@ class NP_MetaEX extends NucleusPlugin
 		sql_query("INSERT INTO ". sql_table("plug_metaex") ." VALUES ('$itemid','$keywords','$description')");
 	}
 }
-?>
