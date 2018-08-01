@@ -43,7 +43,7 @@ class NP_MetaEX extends NucleusPlugin
 		$this->createOption('del_uninstall', 'Delete a table on uninstall?', 'yesno', 'no');
 		$this->createBlogOption('meta_keywords', 'Keywords (comma-separated)', 'text', '');
 		
-		mysql_query("CREATE TABLE IF NOT EXISTS ". sql_table("plug_metaex") 
+		sql_query("CREATE TABLE IF NOT EXISTS ". sql_table("plug_metaex") 
 		." ( 
 		itemid INT(9) NOT NULL, 
 		keywords VARCHAR(255) NOT NULL DEFAULT '', 
@@ -56,7 +56,7 @@ class NP_MetaEX extends NucleusPlugin
 	{
 		if ($this->getOption('del_uninstall') == 'yes')
 		{
-			mysql_query ( "DROP table IF EXISTS ". sql_table("plug_metaex") );
+			sql_query ( "DROP table IF EXISTS ". sql_table("plug_metaex") );
 		}
 		$this->deleteOption('meta_keyword_format');
 		$this->deleteOption('meta_desc_format');
@@ -86,11 +86,11 @@ class NP_MetaEX extends NucleusPlugin
 	function event_EditItemFormExtras($data)
 	{
 		$id = intval($data['variables']['itemid']);
-		$result = mysql_query("SELECT itemid, keywords,description FROM ". sql_table("plug_metaex"). " WHERE itemid='$id'");
-		if (mysql_num_rows($result) > 0)
+		$result = sql_query("SELECT itemid, keywords,description FROM ". sql_table("plug_metaex"). " WHERE itemid='$id'");
+		if (sql_num_rows($result) > 0)
 		{
-			$keywords  = mysql_result($result,0,"keywords");
-			$description  = mysql_result($result,0,"description");
+			$keywords  = sql_result($result,0,"keywords");
+			$description  = sql_result($result,0,"description");
 		}
 	?>
 	<h3>MetaTag(EX)</h3>
@@ -114,8 +114,8 @@ class NP_MetaEX extends NucleusPlugin
 		// Nothing to do? Get out!!
 		if ((!$keywords) && (!$description)) return;
 		$itemid = intval($data['itemid']);
-		$keywords  = mysql_real_escape_string($keywords);
-		$description = mysql_real_escape_string($description);
+		$keywords  = sql_real_escape_string($keywords);
+		$description = sql_real_escape_string($description);
 		$this->insertValues($itemid, $keywords, $description);
 	}
 	
@@ -123,26 +123,26 @@ class NP_MetaEX extends NucleusPlugin
 	{
 		$keywords = requestVar('meta_keywords');
 		$keywords = mb_convert_kana($keywords, "s", "UTF-8");
-		$keywords  = mysql_real_escape_string($keywords);
+		$keywords  = sql_real_escape_string($keywords);
 		$description = requestVar('meta_description');
-		$description = mysql_real_escape_string($description);
+		$description = sql_real_escape_string($description);
 		if (empty($keywords) && empty($description))
 		{	return ;}
 		$itemid = intval($data['itemid']);
 		
-		$result = mysql_query("SELECT * FROM ". sql_table("plug_metaex") ." WHERE itemid='$itemid'");
+		$result = sql_query("SELECT * FROM ". sql_table("plug_metaex") ." WHERE itemid='$itemid'");
 		
-		if (mysql_num_rows($result) > 0)
+		if (sql_num_rows($result) > 0)
 		{
 			// Nothing to do? Delete it!!
 			if ((!$keywords) && (!$description))
 			{
-				mysql_query("DELETE FROM ". sql_table("plug_metaex") ." WHERE itemid='$itemid'");
+				sql_query("DELETE FROM ". sql_table("plug_metaex") ." WHERE itemid='$itemid'");
 				return;
 			}
 			else
 			{
-				mysql_query("UPDATE ". sql_table("plug_metaex") ." SET keywords='$keywords',description='$description' WHERE itemid='$itemid'");
+				sql_query("UPDATE ". sql_table("plug_metaex") ." SET keywords='$keywords',description='$description' WHERE itemid='$itemid'");
 			}
 		}
 		else
@@ -163,11 +163,11 @@ class NP_MetaEX extends NucleusPlugin
 		switch ($skinType)
 		{
 			case 'item':
-				$result = mysql_query("SELECT keywords,description FROM ". sql_table("plug_metaex"). " WHERE itemid='$itemid'");
-				if (mysql_num_rows($result) > 0)
+				$result = sql_query("SELECT keywords,description FROM ". sql_table("plug_metaex"). " WHERE itemid='$itemid'");
+				if (sql_num_rows($result) > 0)
 				{
-					$keywords  = mysql_result($result,0,"keywords");
-					$description  = mysql_result($result,0,"description");
+					$keywords  = sql_result($result,0,"keywords");
+					$description  = sql_result($result,0,"description");
 				}
 				else
 				{
@@ -270,18 +270,18 @@ class NP_MetaEX extends NucleusPlugin
 	global $manager;
 		if ($manager->pluginInstalled('NP_Related') || $manager->pluginInstalled('NP_RelatedEX'))
 		{
-			$result = mysql_query("SELECT localkey FROM ". sql_table("plug_related"). " WHERE itemid='$itemid'");
-			if (mysql_num_rows($result) > 0)
+			$result = sql_query("SELECT localkey FROM ". sql_table("plug_related"). " WHERE itemid='$itemid'");
+			if (sql_num_rows($result) > 0)
 			{
-				$keywords  = mysql_result($result,0,"localkey");
+				$keywords  = sql_result($result,0,"localkey");
 			}
 		}
 		if($manager->pluginInstalled('NP_Header'))
 		{
-			$result = mysql_query("SELECT keywords FROM ". sql_table("plugin_meta_keywords"). " WHERE itemid='$itemid'");
-			if (mysql_num_rows($result) > 0)
+			$result = sql_query("SELECT keywords FROM ". sql_table("plugin_meta_keywords"). " WHERE itemid='$itemid'");
+			if (sql_num_rows($result) > 0)
 			{
-				$keywords  = mysql_result($result,0,"keywords");
+				$keywords  = sql_result($result,0,"keywords");
 			}
 		}
 		return $keywords . $itemid;
@@ -289,7 +289,7 @@ class NP_MetaEX extends NucleusPlugin
 	
 	function insertValues($itemid, $keywords, $description)
 	{
-		mysql_query("INSERT INTO ". sql_table("plug_metaex") ." VALUES ('$itemid','$keywords','$description')");
+		sql_query("INSERT INTO ". sql_table("plug_metaex") ." VALUES ('$itemid','$keywords','$description')");
 	}
 }
 ?>
