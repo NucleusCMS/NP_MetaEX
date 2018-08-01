@@ -29,7 +29,7 @@ class NP_MetaEX extends NucleusPlugin
 	function getName()           { return 'Add Meta Tag Keyword & Description,etc for item '; }
 	function getAuthor()         { return 'ZeRo'; }
 	function getURL()            { return 'http://www.petit-power.com'; }
-	function getVersion()        { return '0.2'; }
+	function getVersion()        { return '0.3'; }
 	function getDescription()    { return 'Allows to make a Meta Tag Keyword & Description for Item.'; }
 	function supportsFeature($w) { return ($w=='SqlTablePrefix')?1:0; }
 	function getEventList()      { return array('PostAddItem','PreUpdateItem',
